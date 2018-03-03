@@ -30,7 +30,7 @@ export class GreenLightComponent implements OnInit, OnDestroy {
   constructor(private renderer: Renderer2,
               private el: ElementRef,
               private greenLightService: GreenLightService,
-              private fb: FormBuilder,) {
+              private fb: FormBuilder) {
     this.renderer.appendChild(this.el.nativeElement, this.lightApp.view);  // append canvas (PIXI app) in component template
     this.textures = this.greenLightService.resourcesArray(72, 'assets/partials/image_part_');  // create array of resources
   }
