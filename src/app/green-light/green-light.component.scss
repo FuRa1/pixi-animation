@@ -3,9 +3,9 @@ $btn-border: greenyellow;
 
 .green-light {
   text-align: center;
-  button {
+  .button {
     display: inline-block;
-    border: 1px solid $btn-border;
+    //border: 1px solid $btn-border;
     border-radius: 3px;
     padding: 5px 7px;
     margin: 10px  15px;
@@ -19,6 +19,10 @@ $btn-border: greenyellow;
       background-color: darken($btn-bg, 10%);
       border-color: darken($btn-border, 15%);
     }
+  }
+  input[type=checkbox]{
+    visibility: hidden;
+    position: absolute;
   }
   &-controls {
 

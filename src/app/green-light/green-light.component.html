@@ -1,14 +1,18 @@
 <!-- canvas renderer here -->
 <div class="green-light">
-  <button class="button green-light-pause" (click)="pause()"></button>
-  <!--<label class="button green-light-pause">-->
-    <!--Starp/Stop-->
-    <!--<input />-->
-  <!--</label>-->
-  <!--<label class="button green-light-pause">-->
-    <!--Direction <span></span>-->
-    <!--<input />-->
-  <!--</label>-->
-  <button class="button green-light-pause" (click)="restart()">Restart</button>
-  <!--<button class="button green-light-pause" (click)="revert()">Revert</button>-->
+  <form [formGroup]="animationControls">
+    <label class="button green-light-pause" [ngClass]="{'active': animationControls.isOnPause}">
+      Start/Stop
+      <input type="checkbox" formControlName="isOnPause"/>
+    </label>
+    <label class="button green-light-direction" [ngClass]="{'active': animationControls.isForward}">
+      Direction <span></span>
+      <input type="checkbox" formControlName="isForward"/>
+    </label>
+    <label class="button green-light-speed">
+      Speed
+      <input type="number" step="1" min="1" max="40" formControlName="frameSpeed"/>
+    </label>
+    <label class="button" (click)="restart()">Restart</label>
+  </form>
 </div>

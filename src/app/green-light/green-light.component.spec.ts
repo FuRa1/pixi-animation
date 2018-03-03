@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnimationComponent } from './animation.component';
+import { GreenLightComponent } from './green-light.component';
 
 describe('AnimationComponent', () => {
-  let component: AnimationComponent;
-  let fixture: ComponentFixture<AnimationComponent>;
+  let component: GreenLightComponent;
+  let fixture: ComponentFixture<GreenLightComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AnimationComponent ]
+      declarations: [ GreenLightComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AnimationComponent);
+    fixture = TestBed.createComponent(GreenLightComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
