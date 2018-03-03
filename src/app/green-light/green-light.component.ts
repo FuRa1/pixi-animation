@@ -37,10 +37,12 @@ export class GreenLightComponent implements OnInit, OnDestroy {
 
   changerTicker() {
     setTimeout(() => {
-      this.calcNextIndex();
-      this.waterfall.texture = this.textures[this.frameIndex];
-      if (!this.isOnPause) { // continue animation if not paused
-        this.changerTicker();
+      if (this.alive) {
+        this.calcNextIndex();
+        this.waterfall.texture = this.textures[this.frameIndex];
+        if (!this.isOnPause) { // continue animation if not paused
+          this.changerTicker();
+        }
       }
     }, this.frameChangeTime);
   }
@@ -75,7 +77,6 @@ export class GreenLightComponent implements OnInit, OnDestroy {
 
     pauseHandler.valueChanges
       .subscribe((val) => {
-        console.log(val);
         if (!val) {
           setTimeout(() => { // setTimeout added to be sure that prev animation "Tick" ended.
             this.isOnPause = val;
