@@ -1,17 +1,17 @@
 <!-- canvas renderer here -->
 <div class="green-light">
   <form [formGroup]="animationControls">
-    <label class="button green-light-pause" [ngClass]="{'active': animationControls.isOnPause}">
+    <input type="checkbox" formControlName="isOnPause" id="isOnPause"/>
+    <label for="isOnPause" class="button pause">
       Start/Stop
-      <input type="checkbox" formControlName="isOnPause"/>
     </label>
-    <label class="button green-light-direction" [ngClass]="{'active': animationControls.isForward}">
-      Direction <span></span>
-      <input type="checkbox" formControlName="isForward"/>
+    <input type="checkbox" formControlName="isForward" id="isForward"/>
+    <label class="button direction" for="isForward" [ngClass]="{'active': animationControls.isForward}">
+      Direction
     </label>
-    <label class="button green-light-speed">
+    <label class="button speed">
       Speed
-      <input type="number" step="1" min="1" max="40" formControlName="frameSpeed"/>
+      <input type="number" step="5" min="0" max="60" formControlName="frameSpeed"/>
     </label>
     <label class="button" (click)="restart()">Restart</label>
   </form>

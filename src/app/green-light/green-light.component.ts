@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, NgModule, ViewChild, ElementRef, Renderer
 import { FormGroup, FormControl, Validator, FormBuilder } from '@angular/forms';
 import * as PIXI from 'pixi.js';
 import { GreenLightService } from './green-light.service';
-import { Observable  } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { takeWhile } from 'rxjs/operators';
 
 @Component({
@@ -30,21 +30,16 @@ export class GreenLightComponent implements OnInit, OnDestroy {
   constructor(private renderer: Renderer2,
               private el: ElementRef,
               private greenLightService: GreenLightService,
-              private fb: FormBuilder, ) {
+              private fb: FormBuilder,) {
     this.renderer.appendChild(this.el.nativeElement, this.lightApp.view);  // append canvas (PIXI app) in component template
     this.textures = this.greenLightService.resourcesArray(72, 'assets/partials/image_part_');  // create array of resources
   }
 
   changerTicker() {
     setTimeout(() => {
-      if (this.frameIndex === this.totalFrames - 1) {
-        this.frameIndex = 0;
-      } else {
-        this.frameIndex += 1;
-      }
-
+      this.calcNextIndex();
       this.waterfall.texture = this.textures[this.frameIndex];
-      if (!this.isOnPause) {
+      if (!this.isOnPause) { // continue animation if not paused
         this.changerTicker();
       }
     }, this.frameChangeTime);
@@ -57,10 +52,18 @@ export class GreenLightComponent implements OnInit, OnDestroy {
     this.changerTicker(); // start new ticker
   }
 
+  private calcNextIndex() {
+    if (!this.isForward) {
+      this.frameIndex + 1 < this.totalFrames ? this.frameIndex += 1 : this.frameIndex = 0;
+    } else {
+      this.frameIndex - 1 < 0 ? this.frameIndex = this.totalFrames - 1 : this.frameIndex -= 1;
+    }
+  }
+
   private initControls() {
     this.animationControls = this.fb.group(
       {
-        isOnPause:  false,
+        isOnPause: false,
         isForward: true,
         frameSpeed: 20,
       }
@@ -78,7 +81,7 @@ export class GreenLightComponent implements OnInit, OnDestroy {
             this.isOnPause = val;
             this.changerTicker(); // start new ticker
           }, this.frameChangeTime);
-        } else{
+        } else {
           this.isOnPause = val;
         }
       });
@@ -94,9 +97,6 @@ export class GreenLightComponent implements OnInit, OnDestroy {
           this.frameChangeTime = val;
         }
       });
-
-      // sameAsUltimateParent.valueChanges
-      //   .takeWhile(() => this.alive)
   }
 
   restart() {
@@ -104,10 +104,6 @@ export class GreenLightComponent implements OnInit, OnDestroy {
     this.frameIndex = 0; // reset frame index;
     const pauseHandler = this.animationControls.get('isOnPause');
     pauseHandler.setValue(false);
-    // setTimeout(() => { // setTimeout added to be sure that prev animation "Tick" ended.
-    //   this.isOnPause = true; // remove pause pause
-    //   this.changerTicker(); // start new ticker
-    // }, this.frameChangeTime);
   }
 
   ngOnDestroy() {
