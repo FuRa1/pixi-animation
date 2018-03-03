@@ -1,0 +1,16 @@
+@import "~normalize-scss";
+body {
+  height: 100vh;
+}
+.page{
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  height: 100%;
+  text-align: center;
+  canvas {
+    display: inline-block;
+  }
+}

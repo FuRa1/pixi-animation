@@ -1,0 +1,32 @@
+$btn-bg: cadetblue;
+$btn-border: greenyellow;
+
+.green-light {
+  text-align: center;
+  button {
+    display: inline-block;
+    border: 1px solid $btn-border;
+    border-radius: 3px;
+    padding: 5px 7px;
+    margin: 10px  15px;
+    background-color: $btn-bg;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    &:hover, &:focus{
+      background-color: darken($btn-bg, 10%);
+      border-color: darken($btn-border, 15%);
+    }
+  }
+  &-controls {
+
+  }
+  &-start {
+
+  }
+  &-pause {
+
+  }
+}
