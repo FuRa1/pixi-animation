@@ -9,10 +9,6 @@
     <label class="button direction" for="isForward" [ngClass]="{'active': animationControls.isForward}">
       Direction
     </label>
-    <label class="button speed">
-      Speed
-      <input type="number" step="5" min="0" max="800" formControlName="frameSpeed"/>
-    </label>
     <label class="button" (click)="restart()">Restart</label>
   </form>
 </div>

@@ -17,14 +17,13 @@ export class GreenLightComponent implements OnInit, OnDestroy {
   private lightApp = new PIXI.Application(144, 365); // ini PIXI app
   private textures: PIXI.Texture[];
   private waterfall: PIXI.Sprite;
+  private ticker: PIXI.ticker.Ticker;
   public animationControls: FormGroup;
   private alive = true; // is animation alive
   private frameIndex = 0; // start index;
   private totalFrames = 72; // total amount of frame && end index;
   // controls
-  private isOnPause = false;
   private isForward = true;
-  private frameChangeTime = 20; // timeout prop;
 
 
   constructor(private renderer: Renderer2,
@@ -35,23 +34,17 @@ export class GreenLightComponent implements OnInit, OnDestroy {
     this.textures = this.greenLightService.resourcesArray(72, 'assets/partials/image_part_');  // create array of resources
   }
 
-  changerTicker() {
-    setTimeout(() => {
-      if (this.alive) {
-        this.calcNextIndex();
-        this.waterfall.texture = this.textures[this.frameIndex];
-        if (!this.isOnPause) { // continue animation if not paused
-          this.changerTicker();
-        }
-      }
-    }, this.frameChangeTime);
-  }
-
   ngOnInit() {
     this.waterfall = new PIXI.Sprite(this.textures[this.frameIndex]); // init PIXI.Sprite el
     this.lightApp.stage.addChild(this.waterfall); // append PIXI.Sprite into PIXI.Application
     this.initControls(); // ini reactive controls
-    this.changerTicker(); // start new ticker
+    this.ticker = new PIXI.ticker.Ticker(); // create new Ticker
+    this.ticker.add((frameTime) => {
+        this.calcNextIndex();
+        this.waterfall.texture = this.textures[this.frameIndex];
+      }
+    );
+    this.ticker.start();
   }
 
   private calcNextIndex() {
@@ -67,7 +60,7 @@ export class GreenLightComponent implements OnInit, OnDestroy {
       {
         isOnPause: false,
         isForward: true,
-        frameSpeed: 20,
+        frameSpeed: 60,
       }
     );
 
@@ -77,31 +70,16 @@ export class GreenLightComponent implements OnInit, OnDestroy {
 
     pauseHandler.valueChanges
       .subscribe((val) => {
-        if (!val) {
-          setTimeout(() => { // setTimeout added to be sure that prev animation "Tick" ended.
-            this.isOnPause = val;
-            this.changerTicker(); // start new ticker
-          }, this.frameChangeTime);
-        } else {
-          this.isOnPause = val;
-        }
+        val ? this.ticker.stop() : this.ticker.start();
       });
 
     directionHandler.valueChanges
       .subscribe((val) => {
         this.isForward = val;
       });
-
-    frameSpeed.valueChanges
-      .subscribe((val) => {
-        if (typeof val === 'number') {
-          this.frameChangeTime = val;
-        }
-      });
   }
 
   restart() {
-    this.isOnPause = true; // stop animation, if progress
     this.frameIndex = 0; // reset frame index;
     const pauseHandler = this.animationControls.get('isOnPause');
     pauseHandler.setValue(false);
