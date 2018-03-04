@@ -60,7 +60,6 @@ export class GreenLightComponent implements OnInit, OnDestroy {
       {
         isOnPause: false,
         isForward: true,
-        frameSpeed: 60,
       }
     );
 
