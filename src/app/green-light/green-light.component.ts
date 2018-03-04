@@ -80,7 +80,8 @@ export class GreenLightComponent implements OnInit, OnDestroy {
 
   restart() {
     this.frameIndex = 0; // reset frame index;
-    this.ticker.start();
+    const pauseHandler = this.animationControls.get('isOnPause');
+    pauseHandler.setValue(false);
   }
 
   ngOnDestroy() {
